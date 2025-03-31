@@ -5,11 +5,11 @@
 - name: Aumento de disco de maquina virtual en vmware
   ansible.builtin.include_tasks: 1-aumento-disco-vmware.yml
 
-- name: Reflejar aumento de disco en maquina virtual
-  ansible.builtin.include_tasks: 2-reflejar-aumento-disco-vm.yml
+# - name: Reflejar aumento de disco en maquina virtual
+#   ansible.builtin.include_tasks: 2-reflejar-aumento-disco-vm.yml
 
-- name: Aumento de size de particion en maquina virtual
-  ansible.builtin.include_tasks: 3-aumento-size-particion-vm.yml
+# - name: Aumento de size de particion en maquina virtual
+#   ansible.builtin.include_tasks: 3-aumento-size-particion-vm.yml
 
-- name: Crear y modificar particiones en maquina virtual
-  ansible.builtin.include_tasks: 4-crear-modificar-particiones.yml
+# - name: Crear y modificar particiones en maquina virtual
+#   ansible.builtin.include_tasks: 4-crear-modificar-particiones.yml
