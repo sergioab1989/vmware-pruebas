@@ -1,9 +1,9 @@
 ---
 - name: Obtener informacion de la maquina virtual
   community.vmware.vmware_guest_disk_info:
-    hostname: "{{ vcenter_hostname }}"
-    username: "{{ vcenter_username }}"
-    password: "{{ vcenter_password }}"
+    hostname: '{{ lookup("env", "VMWARE_HOST") }}'
+    username: '{{ lookup("env", "VMWARE_USER") }}'
+    password: '{{ lookup("env", "VMWARE_PASSWORD") }}'
     validate_certs: 'no'
     datacenter: "{{ vcenter_datacenter }}"
     name: "{{ vm_name }}"
@@ -16,9 +16,9 @@
 
 - name: Expandir el disco de la maquina virtual
   community.vmware.vmware_guest_disk:
-    hostname: "{{ vcenter_hostname }}"
-    username: "{{ vcenter_username }}"
-    password: "{{ vcenter_password }}"
+    hostname: '{{ lookup("env", "VMWARE_HOST") }}'
+    username: '{{ lookup("env", "VMWARE_USER") }}'
+    password: '{{ lookup("env", "VMWARE_PASSWORD") }}'
     validate_certs: 'no'
     datacenter: "{{ vcenter_datacenter }}"
     name: "{{ vm_name }}"
@@ -31,9 +31,9 @@
 
 - name: Obtener tamaño de disco modificado
   community.vmware.vmware_guest_disk_info:
-    hostname: "{{ vcenter_hostname }}"
-    username: "{{ vcenter_username }}"
-    password: "{{ vcenter_password }}"
+    hostname: '{{ lookup("env", "VMWARE_HOST") }}'
+    username: '{{ lookup("env", "VMWARE_USER") }}'
+    password: '{{ lookup("env", "VMWARE_PASSWORD") }}'
     validate_certs: 'no'
     datacenter: "{{ vcenter_datacenter }}"
     name: "{{ vm_name }}"

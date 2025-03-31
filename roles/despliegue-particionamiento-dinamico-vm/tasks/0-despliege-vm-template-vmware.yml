@@ -1,9 +1,9 @@
 ---
 - name: Clonar VM desde plantilla
   community.vmware.vmware_guest:
-    hostname: "{{ vcenter_hostname }}"
-    username: "{{ vcenter_username }}"
-    password: "{{ vcenter_password }}"
+    hostname: '{{ lookup("env", "VMWARE_HOST") }}'
+    username: '{{ lookup("env", "VMWARE_USER") }}'
+    password: '{{ lookup("env", "VMWARE_PASSWORD") }}'
     validate_certs: no
     datacenter: "{{ datacenter_name }}"
     folder: "{{ vm_folder }}"
@@ -27,9 +27,9 @@
 
 - name: Verificar estado de la VM
   community.vmware.vmware_guest_info:
-    hostname: "{{ vcenter_hostname }}"
-    username: "{{ vcenter_username }}"
-    password: "{{ vcenter_password }}"
+    hostname: '{{ lookup("env", "VMWARE_HOST") }}'
+    username: '{{ lookup("env", "VMWARE_USER") }}'
+    password: '{{ lookup("env", "VMWARE_PASSWORD") }}'
     validate_certs: no
     datacenter: "{{ datacenter_name }}"
     name: "{{ vm_name }}"
