@@ -1,0 +1,53 @@
+---
+- name: Gather disk info from virtual machine using name
+  community.vmware.vmware_guest_disk_info:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: 'no'
+    datacenter: "{{ vcenter_datacenter }}"
+    name: "{{ vm_name }}"
+  delegate_to: localhost
+  register: disk_info
+
+- name: mostrar info
+  debug:
+    var: disk_info
+
+- name: mostrar de disco antes de modificar tamaño
+  debug:
+    msg: "{{ disk_info.guest_disk_info['0'].label }} este disco posee un espacio de {{ disk_info.guest_disk_info['0'].capacity_in_kb / 1024 }}"
+
+- name: "Expandir el disco de la VM"
+  community.vmware.vmware_guest_disk:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: 'no'
+    datacenter: "{{ vcenter_datacenter }}"
+    name: "{{ vm_name }}"
+    disk:
+      - size_gb: "{{ new_disk_size_gb }}"
+        unit_number: 0
+        scsi_controller: 0
+  delegate_to: localhost
+  register: disk_modify
+
+- name: mostrar info
+  debug:
+    var: disk_modify
+
+- name: Obtener tamaño de disco modificado
+  community.vmware.vmware_guest_disk_info:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: 'no'
+    datacenter: "{{ vcenter_datacenter }}"
+    name: "{{ vm_name }}"
+  delegate_to: localhost
+  register: disk_info_modify
+
+- name: mostrar de disco despues de modificar tamaño
+  debug:
+    msg: "{{ disk_info_modify.guest_disk_info['0'].label }} este disco posee un espacio de {{ disk_info_modify.guest_disk_info['0'].capacity_in_kb / 1024 }} Mb"

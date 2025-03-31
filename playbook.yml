@@ -1,0 +1,7 @@
+---
+- name: Despliegue de vm y particionamiento dinamico
+  hosts: all
+  gather_facts: no
+
+  roles:
+    - despliegue-particionamiento-dinamico-vm

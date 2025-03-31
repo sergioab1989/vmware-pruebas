@@ -1,0 +1,63 @@
+- name: Ver espacio libre en el VG
+  ansible.builtin.command: "vgs --noheadings --units g -o vg_name,vg_size,vg_free"
+  register: vg_info
+
+- name: Separar los valores del resultado de vgs
+  set_fact:
+    vg_campos: "{{ vg_info.stdout_lines[0].split() }}"
+
+- name: Desactivar swap temporalmente
+  ansible.builtin.command: "swapoff /dev/{{ vg_campos[0] }}/swap"
+
+- name: Cambiar tamaño del volumen de swap a 8G
+  community.general.lvol:
+    vg: "{{ vg_campos[0] }}"
+    lv: "swap"
+    size: "{{ swap_size }}g"
+    resizefs: false
+    force: true
+    state: present
+
+- name: Formatear nuevamente el swap
+  ansible.builtin.command: "mkswap /dev/{{ vg_campos[0] }}/swap"
+
+- name: Activar de nuevo el swap
+  ansible.builtin.command: "swapon /dev/{{ vg_campos[0] }}/swap"
+
+- name: Crear volumenes logicos
+  community.general.lvol:
+    vg: "{{ vg_campos[0] }}"
+    lv: "{{ item.name }}"
+    size: "{{ item.size }}"
+    state: present
+  loop: "{{ lvs }}"
+
+- name: Formatear LVs con XFS
+  ansible.builtin.filesystem:
+    fstype: xfs
+    dev: "/dev/{{ vg_campos[0] }}/{{ item.name }}"
+  loop: "{{ lvs }}"
+
+- name: Crear puntos de montaje
+  ansible.builtin.file:
+    path: "{{ item.mount }}"
+    state: directory
+    mode: '0755'
+  loop: "{{ lvs }}"
+
+- name: Montar los volúmenes
+  ansible.builtin.mount:
+    path: "{{ item.mount }}"
+    src: "/dev/{{ vg_campos[0] }}/{{ item.name }}"
+    fstype: xfs
+    opts: defaults
+    state: mounted
+  loop: "{{ lvs }}"
+
+- name: Expandir el volumen root con el espacio restante
+  community.general.lvol:
+    vg: "{{ vg_campos[0] }}"
+    lv: "root"
+    size: "+100%FREE"
+    resizefs: true
+    state: present

@@ -1,0 +1,41 @@
+---
+- name: Clonar VM desde plantilla
+  community.vmware.vmware_guest:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: no
+    datacenter: "{{ datacenter_name }}"
+    folder: "{{ vm_folder }}"
+    name: "{{ vm_name }}"
+    template: "{{ template_name }}"
+    cluster: "{{ cluster_name }}"
+    datastore: "{{ datastore_name }}"
+    networks:
+      - name: "{{ vm_network }}"
+        ip: "{{ static_ip }}"
+        netmask: "{{ subnet_mask }}"
+        gateway: "{{ gateway }}"
+        type: static
+    customization:
+      hostname: "{{ hostname }}"
+      dns_servers: "{{ dns_servers }}"
+    state: poweredon
+    wait_for_ip_address: true
+    wait_for_ip_address_timeout: 400
+  delegate_to: localhost    
+
+- name: Verificar estado de la VM
+  community.vmware.vmware_guest_info:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: no
+    datacenter: "{{ datacenter_name }}"
+    name: "{{ vm_name }}"
+  delegate_to: localhost    
+  register: vm_info
+
+- name: Mostrar IP asignada (si disponible)
+  debug:
+    msg: "IP de la VM: {{ vm_info.instance.ipv4 | default('Aún no asignada') }}"

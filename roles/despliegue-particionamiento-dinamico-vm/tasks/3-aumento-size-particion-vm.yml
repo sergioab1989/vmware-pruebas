@@ -1,0 +1,36 @@
+---
+- name: Obtener informacion del disco
+  community.general.parted:
+    device: "{{ disco_vm }}"
+    unit: GiB
+  register: info_disco
+
+- name: Extender particion
+  community.general.parted:
+    device: "{{ disco_vm }}"
+    number: "{{ info_disco.partitions | length }}"
+    label: "{{ info_disco.disk.table }}"
+    part_end: "100%"
+    resize: true
+    state: present
+
+- name: Ejecutar pvresize para que el VG vea el nuevo tamaño del PV
+  ansible.builtin.command: "pvresize {{ disco_vm }}{{ info_disco.partitions | length }}"
+  register: pvresize_result
+  changed_when: "'successfully resized' in pvresize_result.stdout or pvresize_result.rc == 0"
+
+- name: Mostrar resultado de pvresize
+  debug:
+    var: pvresize_result.stdout_lines
+
+- name: Ver espacio libre en el VG
+  ansible.builtin.command: "vgs --noheadings --units g -o vg_name,vg_size,vg_free"
+  register: vg_info
+
+- name: Separar los valores del resultado de vgs
+  set_fact:
+    vg_campos: "{{ vg_info.stdout_lines[0].split() }}"
+
+- name: Mostrar espacio libre disponible
+  debug:
+    msg: "Actualmente el VG {{ vg_campos[0] }} tiene un tamaño total de {{ vg_campos[1] }} y espacio libre de {{ vg_campos[2] }}"
