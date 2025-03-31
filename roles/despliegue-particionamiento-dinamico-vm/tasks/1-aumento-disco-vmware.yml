@@ -5,7 +5,7 @@
     username: '{{ lookup("env", "VMWARE_USER") }}'
     password: '{{ lookup("env", "VMWARE_PASSWORD") }}'
     validate_certs: 'no'
-    datacenter: "{{ vcenter_datacenter }}"
+    datacenter: "{{ datacenter_name }}"
     name: "{{ vm_name }}"
   delegate_to: localhost
   register: disk_info
@@ -20,7 +20,7 @@
     username: '{{ lookup("env", "VMWARE_USER") }}'
     password: '{{ lookup("env", "VMWARE_PASSWORD") }}'
     validate_certs: 'no'
-    datacenter: "{{ vcenter_datacenter }}"
+    datacenter: "{{ datacenter_name }}"
     name: "{{ vm_name }}"
     disk:
       - size_gb: "{{ new_disk_size_gb }}"
@@ -35,7 +35,7 @@
     username: '{{ lookup("env", "VMWARE_USER") }}'
     password: '{{ lookup("env", "VMWARE_PASSWORD") }}'
     validate_certs: 'no'
-    datacenter: "{{ vcenter_datacenter }}"
+    datacenter: "{{ datacenter_name }}"
     name: "{{ vm_name }}"
   delegate_to: localhost
   register: disk_info_modify
