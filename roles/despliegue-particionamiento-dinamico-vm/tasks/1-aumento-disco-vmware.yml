@@ -1,5 +1,5 @@
 ---
-- name: Gather disk info from virtual machine using name
+- name: Obtener informacion de la maquina virtual
   community.vmware.vmware_guest_disk_info:
     hostname: "{{ vcenter_hostname }}"
     username: "{{ vcenter_username }}"
@@ -10,15 +10,11 @@
   delegate_to: localhost
   register: disk_info
 
-- name: mostrar info
-  debug:
-    var: disk_info
-
 - name: mostrar de disco antes de modificar tamaño
   debug:
     msg: "{{ disk_info.guest_disk_info['0'].label }} este disco posee un espacio de {{ disk_info.guest_disk_info['0'].capacity_in_kb / 1024 }}"
 
-- name: "Expandir el disco de la VM"
+- name: Expandir el disco de la maquina virtual
   community.vmware.vmware_guest_disk:
     hostname: "{{ vcenter_hostname }}"
     username: "{{ vcenter_username }}"
@@ -32,10 +28,6 @@
         scsi_controller: 0
   delegate_to: localhost
   register: disk_modify
-
-- name: mostrar info
-  debug:
-    var: disk_modify
 
 - name: Obtener tamaño de disco modificado
   community.vmware.vmware_guest_disk_info:
