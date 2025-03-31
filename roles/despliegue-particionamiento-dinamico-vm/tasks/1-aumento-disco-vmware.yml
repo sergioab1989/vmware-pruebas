@@ -10,7 +10,7 @@
   delegate_to: localhost
   register: disk_info
 
-- name: mostrar de disco antes de modificar tamaño
+- name: Mostrar informacion de disco antes de modificar tamaño
   debug:
     msg: "{{ disk_info.guest_disk_info['0'].label }} este disco posee un espacio de {{ disk_info.guest_disk_info['0'].capacity_in_kb / 1024 }}"
 
@@ -40,6 +40,6 @@
   delegate_to: localhost
   register: disk_info_modify
 
-- name: mostrar de disco despues de modificar tamaño
+- name: Mostrar informacion de disco despues de modificar tamaño
   debug:
     msg: "{{ disk_info_modify.guest_disk_info['0'].label }} este disco posee un espacio de {{ disk_info_modify.guest_disk_info['0'].capacity_in_kb / 1024 }} Mb"

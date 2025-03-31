@@ -1,11 +1,11 @@
 ---
-- name: Obtener informacion del disco
+- name: Obtener informacion del disco de maquina virtual
   community.general.parted:
     device: "{{ disco_vm }}"
     unit: GiB
   register: info_disco
 
-- name: Extender particion
+- name: Extender particion de disco
   community.general.parted:
     device: "{{ disco_vm }}"
     number: "{{ info_disco.partitions | length }}"

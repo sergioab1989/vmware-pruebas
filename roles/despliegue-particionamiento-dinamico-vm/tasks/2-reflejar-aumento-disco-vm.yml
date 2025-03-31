@@ -1,14 +1,14 @@
 ---
-- name: Reiniciar la VM
+- name: Reiniciar la maquina virtual para aplicar cambios
   reboot:
     reboot_timeout: 600
     test_command: whoami
 
-- name: Esperar que el host esté accesible (SSH)
+- name: Esperar que el host esté accesible mediante ssh
   wait_for_connection:
     timeout: 300
 
-- name: Instalar gdisk (que incluye sgdisk)
+- name: Instalar gdisk si es que no esta instalado
   package:
     name: gdisk
     state: present
