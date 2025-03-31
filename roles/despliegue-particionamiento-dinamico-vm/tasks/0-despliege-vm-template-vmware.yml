@@ -23,7 +23,7 @@
     state: poweredon
     wait_for_ip_address: true
     wait_for_ip_address_timeout: 400
-  delegate_to: localhost    
+  delegate_to: localhost
 
 - name: Verificar estado de la VM
   community.vmware.vmware_guest_info:

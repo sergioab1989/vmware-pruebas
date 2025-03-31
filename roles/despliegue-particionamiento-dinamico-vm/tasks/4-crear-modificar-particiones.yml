@@ -9,7 +9,7 @@
 - name: Desactivar swap temporalmente
   ansible.builtin.command: "swapoff /dev/{{ vg_campos[0] }}/swap"
 
-- name: Cambiar tamaño del volumen de swap a 8G
+- name: Cambiar tamaño del volumen de swap
   community.general.lvol:
     vg: "{{ vg_campos[0] }}"
     lv: "swap"
