@@ -1,3 +1,13 @@
+- name: Definir volúmenes con tamaños dinámicos
+  set_fact:
+    lvs:
+      - { name: usr, size: "{{ size_usr }}g", mount: /usr }
+      - { name: opt, size: "{{ size_opt }}g", mount: /opt }
+      - { name: tmp, size: "{{ size_tmp }}g", mount: /tmp }
+      - { name: var, size: "{{ size_var }}g", mount: /var }
+      - { name: home, size: "{{ size_home }}g", mount: /home }
+      - { name: var_tmp, size: "{{ size_var_tmp }}g", mount: /var/tmp }
+
 - name: Ver espacio libre en el VG
   ansible.builtin.command: "vgs --noheadings --units g -o vg_name,vg_size,vg_free"
   register: vg_info
