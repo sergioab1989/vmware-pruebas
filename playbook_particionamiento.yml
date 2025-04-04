@@ -7,4 +7,4 @@
 
     - name: solo prueba
       debug:
-        msg: "Esto es solo una prueba"
+        msg: "Esto es solo una prueba {{ tipo_servidor }}"
