@@ -8,11 +8,6 @@
   wait_for_connection:
     timeout: 300
 
-- name: Instalar gdisk si es que no esta instalado
-  package:
-    name: gdisk
-    state: present
-
 - name: Corregir la ubicación de la tabla secundaria GPT
   command: "sgdisk --move-second-header /dev/sda"
 
