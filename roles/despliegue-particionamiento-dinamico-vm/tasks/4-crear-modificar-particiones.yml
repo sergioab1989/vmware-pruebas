@@ -8,7 +8,7 @@
       - { name: home, size: "{{ size_home }}g", mount: /home }
       - { name: var_tmp, size: "{{ size_var_tmp }}g", mount: /var/tmp }
       - { name: var_log, size: "{{ size_var_log }}g", mount: /var/log }
-      - { name: var_log_audit, size: "{{ size_var_audit }}g", mount: /var/audit }
+      - { name: var_log_audit, size: "{{ size_var_audit }}g", mount: /var/log/audit }
 
 - name: Ver espacio libre en el VG
   ansible.builtin.command: "vgs --noheadings --units g -o vg_name,vg_size,vg_free"
