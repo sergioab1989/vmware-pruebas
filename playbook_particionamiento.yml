@@ -1,0 +1,10 @@
+---
+- name: Despliegue de vm y particionamiento dinamico
+  hosts: all
+  gather_facts: no
+
+  tasks:
+
+    - name: solo prueba
+      debug:
+        msg: "Esto es solo una prueba"
