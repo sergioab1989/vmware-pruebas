@@ -20,7 +20,7 @@
   changed_when: "'successfully resized' in pvresize_result.stdout or pvresize_result.rc == 0"
 
 - name: Mostrar resultado de pvresize
-  debug:
+  ansible.builtin.debug:
     var: pvresize_result.stdout_lines
 
 - name: Ver espacio libre en el VG
@@ -28,9 +28,9 @@
   register: vg_info
 
 - name: Separar los valores del resultado de vgs
-  set_fact:
+  sansible.builtin.set_fact:
     vg_campos: "{{ vg_info.stdout_lines[0].split() }}"
 
 - name: Mostrar espacio libre disponible
-  debug:
+  ansible.builtin.debug:
     msg: "Actualmente el VG {{ vg_campos[0] }} tiene un tamaño total de {{ vg_campos[1] }} y espacio libre de {{ vg_campos[2] }}"

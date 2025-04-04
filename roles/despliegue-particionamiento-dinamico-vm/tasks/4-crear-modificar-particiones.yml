@@ -1,5 +1,5 @@
 - name: Definir volúmenes con tamaños dinámicos
-  set_fact:
+  ansible.builtin.set_fact:
     lvs:
       - { name: usr, size: "{{ size_usr }}g" }
       - { name: opt, size: "{{ size_opt }}g" }
@@ -15,7 +15,7 @@
   register: vg_info
 
 - name: Separar los valores del resultado de vgs
-  set_fact:
+  ansible.builtin.set_fact:
     vg_campos: "{{ vg_info.stdout_lines[0].split() }}"
 
 - name: Desactivar swap temporalmente

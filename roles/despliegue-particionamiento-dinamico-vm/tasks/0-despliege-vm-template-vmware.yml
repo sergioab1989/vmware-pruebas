@@ -37,5 +37,5 @@
   register: vm_info
 
 - name: Mostrar IP asignada (si disponible)
-  debug:
+  ansible.builtin.debug:
     msg: "IP de la VM: {{ vm_info.instance.ipv4 | default('Aún no asignada') }}"

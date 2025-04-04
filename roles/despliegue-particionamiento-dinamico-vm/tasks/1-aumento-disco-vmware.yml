@@ -11,7 +11,7 @@
   register: disk_info
 
 - name: Mostrar informacion de disco antes de modificar tamaño
-  debug:
+  ansible.builtin.debug:
     msg: "{{ disk_info.guest_disk_info['0'].label }} este disco posee un espacio de {{ disk_info.guest_disk_info['0'].capacity_in_kb / 1024 }}"
 
 - name: Expandir el disco de la maquina virtual
@@ -41,5 +41,5 @@
   register: disk_info_modify
 
 - name: Mostrar informacion de disco despues de modificar tamaño
-  debug:
+  ansible.builtin.debug:
     msg: "{{ disk_info_modify.guest_disk_info['0'].label }} este disco posee un espacio de {{ disk_info_modify.guest_disk_info['0'].capacity_in_kb / 1024 }} Mb"
