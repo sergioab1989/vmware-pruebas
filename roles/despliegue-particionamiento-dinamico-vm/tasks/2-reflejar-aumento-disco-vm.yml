@@ -14,7 +14,7 @@
     state: present
 
 - name: Corregir la ubicación de la tabla secundaria GPT
-  command: "sgdisk --move-second-header {{ disco_vm }}"
+  command: "sgdisk --move-second-header /dev/sda"
 
 - name: Forzar el kernel a releer la tabla de particiones
-  command: "partprobe {{ disco_vm }}"
+  command: "partprobe /dev/sda"

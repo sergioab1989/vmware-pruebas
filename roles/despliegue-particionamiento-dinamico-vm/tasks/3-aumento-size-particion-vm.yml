@@ -1,13 +1,13 @@
 ---
 - name: Obtener informacion del disco de maquina virtual
   community.general.parted:
-    device: "{{ disco_vm }}"
+    device: "/dev/sda"
     unit: GiB
   register: info_disco
 
 - name: Extender particion de disco
   community.general.parted:
-    device: "{{ disco_vm }}"
+    device: "/dev/sda"
     number: "{{ info_disco.partitions | length }}"
     label: "{{ info_disco.disk.table }}"
     part_end: "100%"
@@ -15,7 +15,7 @@
     state: present
 
 - name: Ejecutar pvresize para que el VG vea el nuevo tamaño del PV
-  ansible.builtin.command: "pvresize {{ disco_vm }}{{ info_disco.partitions | length }}"
+  ansible.builtin.command: "pvresize /dev/sda{{ info_disco.partitions | length }}"
   register: pvresize_result
   changed_when: "'successfully resized' in pvresize_result.stdout or pvresize_result.rc == 0"
 
